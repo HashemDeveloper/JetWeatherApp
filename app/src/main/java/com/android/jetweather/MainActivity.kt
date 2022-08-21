@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.android.jetweather.navigation.WeatherNavigation
 import com.android.jetweather.ui.theme.JetWeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,10 +31,12 @@ private fun AppEntryPoint() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            Column(modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-                Text(text = "HELLO")
+                WeatherNavigation()
             }
         }
     }

@@ -4,8 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
-
 @Composable
-fun WeatherSplashScreen(navController: NavHostController) {
-    Text(text = "Splash Screen")
+fun WeatherMainScreen(navController: NavHostController) {
+    Text(text = "Welcome To Weather!!!")
 }

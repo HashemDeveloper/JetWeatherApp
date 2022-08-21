@@ -13,5 +13,8 @@ fun WeatherNavigation() {
         composable(route = ScreenTypes.SPLASH_SCREEN.name) {
             WeatherSplashScreen(navController = navController)
         }
+        composable(route = ScreenTypes.MAIN_SCREEN.name) {
+            WeatherMainScreen(navController = navController)
+        }
     }
 }
