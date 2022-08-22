@@ -6,12 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.jetweather.navigation.WeatherNavigation
+import com.android.jetweather.screens.SharedViewModel
 import com.android.jetweather.ui.theme.JetWeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 private fun AppEntryPoint() {
+
     JetWeatherTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
