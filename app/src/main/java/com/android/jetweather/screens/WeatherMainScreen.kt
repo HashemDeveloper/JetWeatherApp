@@ -7,15 +7,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -26,8 +27,6 @@ import com.android.jetweather.components.WeatherTopBar
 import com.android.jetweather.model.WeatherInfo
 import com.android.jetweather.model.WeatherObj
 import com.android.jetweather.utils.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Composable
 fun WeatherMainScreen(navController: NavHostController, viewModel: SharedViewModel) {
@@ -114,11 +113,23 @@ fun MainContent(weatherInfo: WeatherInfo? = null) {
         HumidityWindPressureRow(weatherInfo)
         Divider()
         SunsetSunriseRow(weatherInfo)
-        Box(modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center) {
-            Text(text = "This Week", style = MaterialTheme.typography.h5, fontWeight = FontWeight.Bold)
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "This Week",
+                style = MaterialTheme.typography.subtitle1,
+                fontWeight = FontWeight.Bold
+            )
         }
-        Surface(modifier = Modifier.fillMaxWidth(), color = Color(0xA6DBDBDB)) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            color = Color(0xA6DBDBDB),
+            shape = RoundedCornerShape(6.dp)
+        ) {
             DisplayThisWeekWeather(weatherInfo)
         }
     }
@@ -130,7 +141,7 @@ fun DisplayThisWeekWeather(weatherInfo: WeatherInfo) {
         items(items = weatherInfo.list) { days ->
             WeatherCard(days)
         }
-    })
+    }, contentPadding = PaddingValues(1.dp))
 }
 
 @Preview
@@ -139,7 +150,6 @@ fun WeatherCard(weatherObj: WeatherObj? = null) {
     var date = -1
     var iconUrl = ""
     var desc = ""
-    var deg = ""
     weatherObj?.weather?.first()?.icon?.let {
         iconUrl = iconUrl(it)
     }
@@ -149,7 +159,8 @@ fun WeatherCard(weatherObj: WeatherObj? = null) {
     weatherObj?.weather?.first()?.let {
         desc = it.description
     }
-    deg = weatherObj?.temp?.day?.let { formatDecimals(it) } + "º"
+    val maxDeg: String = weatherObj?.temp?.max?.let { formatDecimals(it) } + "º"
+    val minDeg: String = weatherObj?.temp?.min?.let { formatDecimals(it) } + "º"
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -174,13 +185,25 @@ fun WeatherCard(weatherObj: WeatherObj? = null) {
                 backgroundColor = Color(0xFFFFC400)
             ) {
                 Text(
-                    text = desc
+                    text = desc,
+                    modifier = Modifier.padding(4.dp),
+                    style = MaterialTheme.typography.caption
                 )
             }
-            Text(
-                text = deg, style = MaterialTheme.typography.h6,
-                color = Color(0xFF03A9F4)
-            )
+            Text(text = buildAnnotatedString {
+                withStyle(style = SpanStyle(
+                    color = Color.Blue.copy(alpha = 0.7f),
+                    fontWeight = FontWeight.SemiBold
+                )) {
+                    append(maxDeg)
+                }
+                withStyle(style = SpanStyle(
+                    color = Color.LightGray
+                )
+                ) {
+                    append(minDeg)
+                }
+            })
         }
     }
 }
