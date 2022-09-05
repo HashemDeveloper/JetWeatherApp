@@ -46,7 +46,8 @@ private fun DrawSplashView(navController: NavHostController? = null) {
                 })
         )
         delay(2000L)
-        navController?.navigate(ScreenTypes.MAIN_SCREEN.name)
+        val defaultCity = "Brooklyn"
+        navController?.navigate(ScreenTypes.MAIN_SCREEN.name + "/$defaultCity")
     })
     Surface(
         modifier = Modifier

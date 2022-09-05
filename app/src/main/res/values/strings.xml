@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Jet Weather App</string>
     <string name="find_sun">Find the Sun?</string>
+    <string name="search">Search</string>
 </resources>

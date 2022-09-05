@@ -2,9 +2,12 @@ package com.android.jetweather.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.android.jetweather.screens.SearchScreen
 import com.android.jetweather.screens.SharedViewModel
 import com.android.jetweather.screens.WeatherMainScreen
 import com.android.jetweather.screens.WeatherSplashScreen
@@ -17,8 +20,17 @@ fun WeatherNavigation() {
         composable(route = ScreenTypes.SPLASH_SCREEN.name) {
             WeatherSplashScreen(navController = navController)
         }
-        composable(route = ScreenTypes.MAIN_SCREEN.name) {
-            WeatherMainScreen(navController = navController,viewModel)
+        val route = ScreenTypes.MAIN_SCREEN.name
+        composable(route = "${route}/{city}",
+        arguments = listOf(navArgument(name = "city") {
+            type = NavType.StringType
+        })) { navBack ->
+            navBack.arguments?.getString("city")?.let {city ->
+                WeatherMainScreen(navController = navController,viewModel, city = city)
+            }
+        }
+        composable(route = ScreenTypes.SEARCH_SCREEN.name) {
+            SearchScreen(navController = navController)
         }
     }
 }

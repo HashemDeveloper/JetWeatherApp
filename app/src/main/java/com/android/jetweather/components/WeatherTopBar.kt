@@ -16,16 +16,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
-@Preview
 @Composable
 fun WeatherTopBar(
     title: String = "Title",
     icon: ImageVector? = null,
     isMainScreen: Boolean = true,
     elevation: Dp = 0.dp,
-//    navController: NavController,
+    navController: NavController,
     onAddClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
 ) {
@@ -39,7 +39,7 @@ fun WeatherTopBar(
         },
         actions = {
             if (isMainScreen) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { onAddClicked() }) {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Search Icon"

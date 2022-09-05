@@ -2,8 +2,6 @@ package com.android.jetweather.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -11,54 +9,56 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.android.jetweather.BuildConfig
-import com.android.jetweather.R
 import com.android.jetweather.components.WeatherStateImage
 import com.android.jetweather.components.WeatherTopBar
 import com.android.jetweather.model.WeatherInfo
-import com.android.jetweather.model.WeatherObj
+import com.android.jetweather.navigation.ScreenTypes
 import com.android.jetweather.utils.*
 import com.android.jetweather.widgets.DisplayThisWeekWeather
 import com.android.jetweather.widgets.HumidityWindPressureRow
 import com.android.jetweather.widgets.SunsetSunriseRow
 
 @Composable
-fun WeatherMainScreen(navController: NavHostController, viewModel: SharedViewModel) {
-    WeatherInfoData(viewModel)
+fun WeatherMainScreen(navController: NavHostController, viewModel: SharedViewModel, city: String) {
+    WeatherInfoData(viewModel, navController = navController, city)
 }
 
 @Composable
-private fun WeatherInfoData(viewModel: SharedViewModel) {
+private fun WeatherInfoData(
+    viewModel: SharedViewModel,
+    navController: NavHostController,
+    city: String
+) {
     val isLoading: Boolean? = viewModel.data.value.loading
     val data: WeatherInfo? = viewModel.data.value.data
     val error: Exception? = viewModel.data.value.error
-
+    viewModel.getWeather(city)
     isLoading?.let { loading ->
         if (loading) {
             CircularProgressIndicator()
         } else {
             data?.let { d ->
-                MainScaffold(d)
+                MainScaffold(d, navController =  navController)
             }
         }
     }
 }
 
 @Composable
-private fun MainScaffold(weatherInfo: WeatherInfo? = null) {
+private fun MainScaffold(weatherInfo: WeatherInfo? = null, navController: NavHostController) {
     Scaffold(topBar = {
         WeatherTopBar(
             title = weatherInfo?.city?.name + ", ${weatherInfo?.city?.country}",
-            elevation = 5.dp
+            elevation = 5.dp,
+            navController = navController,
+            onAddClicked = {
+                navController.navigate(ScreenTypes.SEARCH_SCREEN.name)
+            }
         ) {
             Log.d(Constants.getTAG(""), "Button Clicked")
         }
