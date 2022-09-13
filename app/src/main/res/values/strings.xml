@@ -2,4 +2,7 @@
     <string name="app_name">Jet Weather App</string>
     <string name="find_sun">Find the Sun?</string>
     <string name="search">Search</string>
+    <string name="about">About</string>
+    <string name="about_app">Weather app v.0.1</string>
+    <string name="api_used">https://openweathermap.org</string>
 </resources>
