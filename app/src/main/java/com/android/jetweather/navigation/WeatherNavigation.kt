@@ -1,8 +1,8 @@
 package com.android.jetweather.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +13,7 @@ import com.android.jetweather.screens.*
 @Composable
 fun WeatherNavigation() {
     val navController = rememberNavController()
-    val viewModel: SharedViewModel = viewModel()
+    val viewModel: SharedViewModel = hiltViewModel()
     NavHost(navController = navController, startDestination = ScreenTypes.SPLASH_SCREEN.name) {
         composable(route = ScreenTypes.SPLASH_SCREEN.name) {
             WeatherSplashScreen(navController = navController)

@@ -1,4 +1,4 @@
-package com.android.jetweather.repository
+package com.android.jetweather.repository.remote
 
 import android.util.Log
 import com.android.jetweather.BuildConfig

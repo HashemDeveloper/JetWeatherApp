@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.jetweather.data.DataOrException
 import com.android.jetweather.model.WeatherInfo
-import com.android.jetweather.repository.WeatherRepository
+import com.android.jetweather.repository.remote.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
