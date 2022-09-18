@@ -1,5 +1,7 @@
 package com.android.jetweather.components
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.android.jetweather.R
 import com.android.jetweather.model.Favorite
 import com.android.jetweather.navigation.ScreenTypes
 import com.android.jetweather.screens.FavoriteViewModel
@@ -42,6 +47,10 @@ fun WeatherTopBar(
     val showDialog = remember {
         mutableStateOf(false)
     }
+    val showIt = remember {
+        mutableStateOf(false)
+    }
+    val context = LocalContext.current
     if (showDialog.value) {
         ShowSettingDropDownMenu(showDialog, navController)
     }
@@ -82,27 +91,50 @@ fun WeatherTopBar(
                     })
             }
             if (isMainScreen) {
-                Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Favorite Icon",
-                    modifier = Modifier
-                        .scale(0.9f)
-                        .clickable {
-                            val splitTitle = title.split(",")
-                            val city = splitTitle[0]
-                            val country = splitTitle[1]
-                            favoriteViewModel.insertFavorite(Favorite(
-                                city = city,
-                                country = country
-                            ))
-                        },
-                    tint = Color.Red.copy(alpha = 0.6f)
-                )
+                val isFavoriteItem: List<Favorite> =
+                    favoriteViewModel.favList.collectAsState().value.filter { item ->
+                        (item.city == title.split(",")[0])
+                    }
+                if (isFavoriteItem.isEmpty()) {
+                    Icon(
+                        imageVector = Icons.Default.FavoriteBorder,
+                        contentDescription = "Favorite Icon",
+                        modifier = Modifier
+                            .scale(0.9f)
+                            .clickable {
+                                val splitTitle = title.split(",")
+                                val city = splitTitle[0]
+                                val country = splitTitle[1]
+                                favoriteViewModel.insertFavorite(
+                                    Favorite(
+                                        city = city,
+                                        country = country
+                                    )
+                                ).run {
+                                    showIt.value = true
+                                }
+                            },
+                        tint = Color.Red.copy(alpha = 0.6f)
+                    )
+                } else {
+                    showIt.value = false
+                    Box {}
+                }
+                showText(context = context, showIt = showIt)
             }
         },
         backgroundColor = Color.Transparent,
         elevation = elevation
     )
+}
+
+@Composable
+private fun showText(context: Context, showIt: MutableState<Boolean>) {
+    if (showIt.value) {
+        Toast.makeText(context, stringResource(id = R.string.favourite_added),
+            Toast.LENGTH_SHORT)
+            .show()
+    }
 }
 
 @Composable

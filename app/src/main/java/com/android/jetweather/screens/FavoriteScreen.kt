@@ -95,9 +95,14 @@ fun CityRow(
                     style = MaterialTheme.typography.caption
                 )
             }
-            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Favorite Icon", modifier = Modifier.clickable {
-                favoriteViewModel.deleteFavorite(favList)
-            }, tint = Color.Red.copy(alpha = 0.3f))
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete Favorite Icon",
+                modifier = Modifier.clickable {
+                    favoriteViewModel.deleteFavorite(favList)
+                },
+                tint = Color.Red.copy(alpha = 0.3f)
+            )
         }
     }
 }

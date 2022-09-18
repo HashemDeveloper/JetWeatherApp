@@ -6,4 +6,5 @@
     <string name="about_app">Weather app v.0.1</string>
     <string name="api_used">https://openweathermap.org</string>
     <string name="favorite_cities">Favorite Cities</string>
+    <string name="favourite_added">Added To Favourites</string>
 </resources>
