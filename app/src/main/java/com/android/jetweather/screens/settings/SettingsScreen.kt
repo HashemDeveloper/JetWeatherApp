@@ -31,8 +31,7 @@ fun SettingsScreen(
     val unitToggleState = remember { mutableStateOf(false) }
     val measurementUnits = listOf(stringResource(id = R.string.imperial), stringResource(id = R.string.metrics))
     val choiceFromDb = settingsViewModel.units.collectAsState().value
-    val defaultChoice: String =
-        if (choiceFromDb.isEmpty()) measurementUnits[0] else choiceFromDb[0].unit
+    val defaultChoice: String = if (choiceFromDb.isEmpty()) measurementUnits[0] else choiceFromDb[0].unit
     val choiceState = remember { mutableStateOf(defaultChoice) }
     val context = LocalContext.current
     Scaffold(topBar = {
