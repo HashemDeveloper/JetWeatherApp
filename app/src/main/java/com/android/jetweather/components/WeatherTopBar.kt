@@ -18,19 +18,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.android.jetweather.R
 import com.android.jetweather.model.Favorite
 import com.android.jetweather.navigation.ScreenTypes
-import com.android.jetweather.screens.FavoriteViewModel
-import com.android.jetweather.screens.SharedViewModel
-import java.util.*
+import com.android.jetweather.screens.favorite.FavoriteViewModel
 
 
 @Composable
@@ -120,7 +116,7 @@ fun WeatherTopBar(
                     showIt.value = false
                     Box {}
                 }
-                showText(context = context, showIt = showIt)
+                ShowToast(context = context, showIt = showIt)
             }
         },
         backgroundColor = Color.Transparent,
@@ -129,7 +125,7 @@ fun WeatherTopBar(
 }
 
 @Composable
-private fun showText(context: Context, showIt: MutableState<Boolean>) {
+private fun ShowToast(context: Context, showIt: MutableState<Boolean>) {
     if (showIt.value) {
         Toast.makeText(context, stringResource(id = R.string.favourite_added),
             Toast.LENGTH_SHORT)

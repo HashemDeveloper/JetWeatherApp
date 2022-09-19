@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Jet Weather App</string>
     <string name="find_sun">Find the Sun?</string>
     <string name="search">Search</string>
@@ -7,4 +7,10 @@
     <string name="api_used">https://openweathermap.org</string>
     <string name="favorite_cities">Favorite Cities</string>
     <string name="favourite_added">Added To Favourites</string>
+    <string name="change_unit">Change Unit of Measurement</string>
+    <string name="imperial">Imperial (F)</string>
+    <string name="metrics" tools:ignore="TypographyOther">Metrics (C)</string>
+    <string name="fahrenheit">Fahrenheit ºF</string>
+    <string name="celcius">Celsius ºC</string>
+    <string name="save">Save</string>
 </resources>

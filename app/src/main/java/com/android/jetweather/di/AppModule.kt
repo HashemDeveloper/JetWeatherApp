@@ -2,6 +2,7 @@ package com.android.jetweather.di
 
 import android.content.Context
 import androidx.room.Room
+import com.android.jetweather.data.SettingUnitDao
 import com.android.jetweather.data.WeatherDB
 import com.android.jetweather.data.WeatherDao
 import com.android.jetweather.network.WeatherAPI
@@ -23,7 +24,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideWeatherDao(weatherDb: WeatherDB): WeatherDao = weatherDb.weatherDao()
-
+    @Singleton
+    @Provides
+    fun provideSettingUnitDao(weatherDb: WeatherDB): SettingUnitDao = weatherDb.settingUnitDao()
     @Singleton
     @Provides
     fun provideWeatherDB(@ApplicationContext context: Context): WeatherDB =

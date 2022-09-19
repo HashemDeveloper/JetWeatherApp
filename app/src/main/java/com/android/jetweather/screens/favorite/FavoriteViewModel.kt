@@ -1,4 +1,4 @@
-package com.android.jetweather.screens
+package com.android.jetweather.screens.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

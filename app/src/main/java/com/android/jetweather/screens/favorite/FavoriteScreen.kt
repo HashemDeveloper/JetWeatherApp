@@ -24,7 +24,7 @@ import com.android.jetweather.R
 import com.android.jetweather.components.WeatherTopBar
 import com.android.jetweather.model.Favorite
 import com.android.jetweather.navigation.ScreenTypes
-import kotlinx.coroutines.flow.collect
+import com.android.jetweather.screens.favorite.FavoriteViewModel
 
 @Composable
 fun FavoriteScreen(
