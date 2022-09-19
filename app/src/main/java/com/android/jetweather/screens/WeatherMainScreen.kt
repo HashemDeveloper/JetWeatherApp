@@ -5,26 +5,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.android.jetweather.BuildConfig
 import com.android.jetweather.components.WeatherStateImage
 import com.android.jetweather.components.WeatherTopBar
 import com.android.jetweather.model.WeatherInfo
 import com.android.jetweather.navigation.ScreenTypes
+import com.android.jetweather.screens.settings.SettingsViewModel
 import com.android.jetweather.utils.*
 import com.android.jetweather.widgets.DisplayThisWeekWeather
 import com.android.jetweather.widgets.HumidityWindPressureRow
 import com.android.jetweather.widgets.SunsetSunriseRow
 
 @Composable
-fun WeatherMainScreen(navController: NavHostController, viewModel: SharedViewModel, city: String) {
+fun WeatherMainScreen(
+    navController: NavHostController,
+    viewModel: SharedViewModel, city: String
+) {
     WeatherInfoData(viewModel, navController = navController, city)
 }
 
@@ -32,25 +37,41 @@ fun WeatherMainScreen(navController: NavHostController, viewModel: SharedViewMod
 private fun WeatherInfoData(
     viewModel: SharedViewModel,
     navController: NavHostController,
-    city: String
+    city: String,
+    settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
     val isLoading: Boolean? = viewModel.data.value.loading
     val data: WeatherInfo? = viewModel.data.value.data
     val error: Exception? = viewModel.data.value.error
-    viewModel.getWeather(city)
-    isLoading?.let { loading ->
-        if (loading) {
-            CircularProgressIndicator()
-        } else {
-            data?.let { d ->
-                MainScaffold(d, navController =  navController)
+    val unitFromDb = settingsViewModel.units.collectAsState().value
+    var unit by remember {
+        mutableStateOf("imperial")
+    }
+    var isImperial by remember {
+        mutableStateOf(false)
+    }
+    if (unitFromDb.isNotEmpty()) {
+        unit = unitFromDb[0].unit.split(" ")[0].lowercase()
+        isImperial = unit == "imperial"
+        viewModel.getWeather(city, unit)
+        isLoading?.let { loading ->
+            if (loading) {
+                CircularProgressIndicator()
+            } else {
+                data?.let { d ->
+                    MainScaffold(d, navController = navController, isImperial)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun MainScaffold(weatherInfo: WeatherInfo? = null, navController: NavHostController) {
+private fun MainScaffold(
+    weatherInfo: WeatherInfo? = null,
+    navController: NavHostController,
+    isImperial: Boolean
+) {
     Scaffold(topBar = {
         WeatherTopBar(
             title = weatherInfo?.city?.name + ", ${weatherInfo?.city?.country}",
@@ -66,12 +87,12 @@ private fun MainScaffold(weatherInfo: WeatherInfo? = null, navController: NavHos
         if (BuildConfig.DEBUG) {
             print(it)
         }
-        MainContent(weatherInfo)
+        MainContent(weatherInfo, isImperial)
     }
 }
 
 @Composable
-fun MainContent(weatherInfo: WeatherInfo? = null) {
+fun MainContent(weatherInfo: WeatherInfo? = null, isImperial: Boolean) {
     val imageUrl =
         "https://openweathermap.org/img/wn/${weatherInfo?.list?.first()?.weather?.first()?.icon}.png"
     Column(
@@ -113,7 +134,7 @@ fun MainContent(weatherInfo: WeatherInfo? = null) {
                 }
             }
         }
-        HumidityWindPressureRow(weatherInfo)
+        HumidityWindPressureRow(weatherInfo, isImperial)
         Divider()
         SunsetSunriseRow(weatherInfo)
         Box(

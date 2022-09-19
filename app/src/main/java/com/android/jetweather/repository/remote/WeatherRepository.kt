@@ -11,10 +11,10 @@ import javax.inject.Inject
 class WeatherRepository @Inject constructor(private val api: WeatherAPI) {
     private val dataOrException: DataOrException<WeatherInfo,Boolean,Exception> = DataOrException()
 
-    suspend fun getWeather(city: String): DataOrException<WeatherInfo,Boolean,Exception> {
+    suspend fun getWeather(city: String, unit: String): DataOrException<WeatherInfo,Boolean,Exception> {
         try {
             this.dataOrException.loading = true
-            this.dataOrException.data = this.api.getWeatherInfo(city)
+            this.dataOrException.data = this.api.getWeatherInfo(city, units = unit)
             if (this.dataOrException.data?.cod?.isNotEmpty() == true) {
                 this.dataOrException.loading = false
             }

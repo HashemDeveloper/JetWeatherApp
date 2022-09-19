@@ -24,10 +24,10 @@ class SharedViewModel @Inject constructor(private val repo: WeatherRepository): 
             getWeather("Brooklyn")
         }
     }
-    fun getWeather(city: String) {
+    fun getWeather(city: String, unit: String = "") {
         if (city.isEmpty()) return
         viewModelScope.launch(Dispatchers.IO) {
-            data.value = repo.getWeather(city)
+            data.value = repo.getWeather(city, unit)
         }
     }
 }
