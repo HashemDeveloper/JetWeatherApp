@@ -2,14 +2,11 @@ package com.android.jetweather.screens.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,8 +22,6 @@ import com.android.jetweather.BuildConfig
 import com.android.jetweather.R
 import com.android.jetweather.components.WeatherTopBar
 import com.android.jetweather.model.Unit
-import com.android.jetweather.screens.settings.SettingsViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
 fun SettingsScreen(
@@ -60,7 +55,7 @@ fun SettingsScreen(
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = CenterHorizontally
             ) {
                 Text(
                     text = stringResource(id = R.string.change_unit),
