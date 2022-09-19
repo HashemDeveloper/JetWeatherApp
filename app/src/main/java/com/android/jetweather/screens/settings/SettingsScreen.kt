@@ -1,4 +1,4 @@
-package com.android.jetweather.screens
+package com.android.jetweather.screens.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
