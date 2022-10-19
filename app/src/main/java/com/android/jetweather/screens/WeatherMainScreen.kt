@@ -52,15 +52,15 @@ private fun WeatherInfoData(
     }
     if (unitFromDb.isNotEmpty()) {
         unit = unitFromDb[0].unit.split(" ")[0].lowercase()
-        isImperial = unit == "imperial"
-        viewModel.getWeather(city, unit)
-        isLoading?.let { loading ->
-            if (loading) {
-                CircularProgressIndicator()
-            } else {
-                data?.let { d ->
-                    MainScaffold(d, navController = navController, isImperial)
-                }
+    }
+    isImperial = unit == "imperial"
+    viewModel.getWeather(city, unit)
+    isLoading?.let { loading ->
+        if (loading) {
+            CircularProgressIndicator()
+        } else {
+            data?.let { d ->
+                MainScaffold(d, navController = navController, isImperial)
             }
         }
     }
